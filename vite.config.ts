@@ -1,0 +1,32 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import path from 'node:path'
+
+// High-Performance Vite configuration
+export default defineConfig({
+  base: process.env.VITE_BASE_PATH || (process.env.NODE_ENV === 'production' ? '/venture/' : '/'),
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(import.meta.dirname || '.', './src'),
+    },
+  },
+  server: {
+    host: '127.0.0.1',
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+    },
+  },
+  preview: {
+    host: '127.0.0.1',
+    port: 5173,
+  },
+})
