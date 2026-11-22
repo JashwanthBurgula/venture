@@ -12,6 +12,17 @@ export async function apiRequest<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const isStaticHost =
+    typeof window !== "undefined" &&
+    (window.location.hostname.endsWith("github.io") ||
+      window.location.hostname.endsWith("surge.sh") ||
+      window.location.hostname.endsWith("pages.dev"));
+
+  // On static hosts without a dedicated backend API URL, route directly to the demo engine
+  if (isStaticHost && !import.meta.env.VITE_API_BASE_URL) {
+    return handleMockFallback(endpoint, options) as T;
+  }
+
   const token = localStorage.getItem("vb_token");
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -38,8 +49,8 @@ export async function apiRequest<T = any>(
     }
 
     if (!response.ok) {
-      // If the backend returned 404 or 502/503/504 because backend is missing in static deployment
-      if ([404, 502, 503, 504].includes(response.status)) {
+      // If the backend returned 404, 405 (Method Not Allowed on static server), 500-504
+      if (!import.meta.env.VITE_API_BASE_URL || [404, 405, 500, 501, 502, 503, 504].includes(response.status)) {
         return handleMockFallback(endpoint, options) as T;
       }
       const data = await response.json().catch(() => ({}));
@@ -51,7 +62,7 @@ export async function apiRequest<T = any>(
     return data as T;
   } catch (err: any) {
     // If backend server is unreachable (offline / static build without backend cluster)
-    if (err.name === "TypeError" || err.message?.includes("fetch") || err.name === "AbortError") {
+    if (!import.meta.env.VITE_API_BASE_URL || err.name === "TypeError" || err.message?.includes("fetch") || err.name === "AbortError") {
       return handleMockFallback(endpoint, options) as T;
     }
     throw err;
@@ -224,10 +235,12 @@ export const adminApi = {
   getStats: () => apiRequest<any>("/admin/stats"),
   getUsers: () => apiRequest<any[]>("/admin/users"),
   getAuditLogs: (limit = 50) => apiRequest<any[]>(`/admin/audit-logs?limit=${limit}`),
+  getRegulatoryRules: () => apiRequest<any[]>("/regulations/rules"),
+  getSystemHealth: () => apiRequest<any>("/admin/health"),
+  getHealth: () => apiRequest<any>("/admin/health"),
   transitionRule: (ruleId: string, action: string, comments?: string) =>
     apiRequest<any>(`/admin/rules/${ruleId}/transition`, {
       method: "POST",
       body: JSON.stringify({ action, comments }),
     }),
-  getHealth: () => apiRequest<any>("/admin/health"),
 };

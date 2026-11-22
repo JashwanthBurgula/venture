@@ -32,8 +32,8 @@ const INITIAL_PROJECTS = [
   {
     id: "proj_demo_healthpulse",
     name: "HealthPulse AI Solutions",
-    domain: "HealthTech",
-    preferred_structure: "Private Limited",
+    domain: "Healthcare",
+    preferred_structure: "Private Limited Company",
     accent_color: "#10b981",
     status: "In Progress",
     completion_percentage: 85,
@@ -44,7 +44,7 @@ const INITIAL_PROJECTS = [
   {
     id: "proj_demo_payflow",
     name: "PayFlow Bharat Logistics",
-    domain: "Fintech",
+    domain: "Finance and Accounting",
     preferred_structure: "Limited Liability Partnership",
     accent_color: "#3b82f6",
     status: "Assessment",
@@ -120,35 +120,200 @@ const INITIAL_TASKS = [
 
 const INITIAL_DOCUMENTS = [
   {
+    id: "doc_master_pdf",
+    project_id: "proj_demo_healthpulse",
+    title: "VentureBlueprint Company Startup Blueprint",
+    name: "VentureBlueprint Company Startup Blueprint (PDF)",
+    document_type: "formation_blueprint",
+    version: 1,
+    file_format: "pdf",
+    status: "Generated",
+    file_size_bytes: 384210,
+    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    size: "375 KB",
+  },
+  {
+    id: "doc_master_docx",
+    project_id: "proj_demo_healthpulse",
+    title: "VentureBlueprint Company Startup Blueprint",
+    name: "VentureBlueprint Company Startup Blueprint (DOCX)",
+    document_type: "formation_blueprint",
+    version: 1,
+    file_format: "docx",
+    status: "Generated",
+    file_size_bytes: 185420,
+    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    size: "181 KB",
+  },
+  {
     id: "doc_01",
     project_id: "proj_demo_healthpulse",
+    title: "Memorandum of Association (MoA Draft)",
     name: "Memorandum of Association (MoA Draft)",
     document_type: "MoA",
-    status: "Generated",
+    version: 1,
     file_format: "pdf",
+    status: "Generated",
+    file_size_bytes: 254820,
     created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
     size: "248 KB",
   },
   {
     id: "doc_02",
     project_id: "proj_demo_healthpulse",
+    title: "Articles of Association (AoA Draft)",
     name: "Articles of Association (AoA Draft)",
     document_type: "AoA",
-    status: "Generated",
+    version: 1,
     file_format: "pdf",
+    status: "Generated",
+    file_size_bytes: 320110,
     created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
     size: "312 KB",
   },
   {
     id: "doc_03",
     project_id: "proj_demo_healthpulse",
+    title: "Founders Equity & IP Assignment Agreement",
     name: "Founders Equity & IP Assignment Agreement",
     document_type: "Agreement",
-    status: "Generated",
+    version: 1,
     file_format: "docx",
+    status: "Generated",
+    file_size_bytes: 190200,
     created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
     size: "185 KB",
   },
+];
+
+const INITIAL_ROLES = [
+  {
+    title: "Managing Director (MD)",
+    category: "Statutory Position",
+    staffing_type: "Mandatory Key Managerial Personnel (KMP)",
+    type: "Executive Board Member",
+    description: "Entrusted with substantial powers of business management under Section 2(54) of the Companies Act 2013.",
+    legal_basis: "Companies Act 2013 · Section 196 & 203",
+    responsibilities: [
+      "Executive governance and statutory compliance filing oversight with ROC.",
+      "Primary authorized signatory for corporate bank accounts, GSTN, and MCA SPICe+ submissions.",
+      "Convening quarterly Board of Directors meetings and maintaining statutory minutes."
+    ]
+  },
+  {
+    title: "Resident Director",
+    category: "Statutory Position",
+    staffing_type: "Mandatory Statutory Quorum",
+    type: "Board Director",
+    description: "Every company must have at least one director who stays in India for at least 182 days during the financial year.",
+    legal_basis: "Companies Act 2013 · Section 149(3)",
+    responsibilities: [
+      "Satisfies Indian residency threshold for MCA incorporation approval.",
+      "Acts as primary domestic contact for tax notices (Income Tax, DGGI, GST).",
+      "Signatory on annual financial statements and Board's Report (Form AOC-4)."
+    ]
+  },
+  {
+    title: "Statutory Auditor",
+    category: "External Professional Service",
+    staffing_type: "Mandatory Independent Professional",
+    type: "Independent Chartered Accountant (FCA)",
+    description: "Must be appointed by the Board within 30 days of incorporation to conduct independent statutory financial audits.",
+    legal_basis: "Companies Act 2013 · Section 139(6)",
+    responsibilities: [
+      "Independent verification of balance sheets and profit & loss statements.",
+      "Issuance of Statutory Audit Report (CARO) and filing Form ADT-1 with MCA.",
+      "Certification of Commencement of Business declaration (Form 20A)."
+    ]
+  },
+  {
+    title: "Chief Technology Officer (CTO)",
+    category: "Executive Management",
+    staffing_type: "Recommended Operational Leadership",
+    type: "Executive Officer",
+    description: "Directs technical architecture, patent documentation, software engineering, and data protection compliance.",
+    legal_basis: "Corporate Governance Best Practices & DPDP Act 2023",
+    responsibilities: [
+      "Engineering architecture, cloud security, and proprietary IP assignment to the entity.",
+      "Implementation of technical safeguards under Digital Personal Data Protection (DPDP) Act 2023.",
+      "Technical due-diligence readiness for venture funding rounds."
+    ]
+  }
+];
+
+const INITIAL_RULES = [
+  {
+    id: "rule_01",
+    rule_code: "MCA-SEC-149",
+    source_code: "MCA",
+    category: "incorporation",
+    rule_title: "Minimum Director Headcount Requirement",
+    status: "Passed",
+    legal_provision: "Companies Act 2013 · Section 149(1)",
+    official_source_url: "https://www.mca.gov.in",
+    finding_summary: "Private Limited entities require a minimum of two natural person directors. Your roster satisfies this statutory requirement.",
+    action_required: "Ensure valid DIN and active Class 3 DSC credentials prior to SPICe+ Part B submission."
+  },
+  {
+    id: "rule_02",
+    rule_code: "MCA-SEC-149-3",
+    source_code: "MCA",
+    category: "incorporation",
+    rule_title: "Statutory Resident Director Mandate",
+    status: "Passed",
+    legal_provision: "Companies Act 2013 · Section 149(3)",
+    official_source_url: "https://www.mca.gov.in",
+    finding_summary: "At least one designated director has confirmed continuous physical stay in India for ≥ 182 days in the preceding financial year.",
+    action_required: "Submit Indian address verification proof (Aadhaar/Passport and Utility Bill ≤ 2 months old)."
+  },
+  {
+    id: "rule_03",
+    rule_code: "MCA-RULE-8",
+    source_code: "MCA",
+    category: "incorporation",
+    rule_title: "Company Name Availability & Undesirability Filter",
+    status: "Passed",
+    legal_provision: "Companies (Incorporation) Rules 2014 · Rule 8",
+    official_source_url: "https://www.mca.gov.in/content/mca/global/en/home.html",
+    finding_summary: "Proposed title contains distinctive branding keywords and lacks prohibited state emblems or government patronymics.",
+    action_required: "File RUN (Reserve Unique Name) or execute simultaneous name reservation in SPICe+ Part A."
+  },
+  {
+    id: "rule_04",
+    rule_code: "GST-SEC-22",
+    source_code: "GSTN",
+    category: "taxation",
+    rule_title: "GST Registration Threshold Assessment",
+    status: "Passed",
+    legal_provision: "Central Goods and Services Tax Act 2017 · Section 22 & 24",
+    official_source_url: "https://www.gst.gov.in",
+    finding_summary: "Entity anticipates inter-state electronic commerce and service deliveries, triggering early voluntary/mandatory GSTIN enrolment.",
+    action_required: "Opt for simultaneous GSTIN generation during composite SPICe+ e-incorporation."
+  },
+  {
+    id: "rule_05",
+    rule_code: "DPDP-SEC-6",
+    source_code: "MeitY",
+    category: "data privacy",
+    rule_title: "Digital Personal Data Consent & Notice Framework",
+    status: "Warning",
+    legal_provision: "Digital Personal Data Protection Act 2023 · Section 6",
+    official_source_url: "https://www.meity.gov.in",
+    finding_summary: "User data collection for consumer-facing analytics requires bilingual, transparent itemised consent notices.",
+    action_required: "Adopt VentureBlueprint DPDP consent templates in customer-facing terms before public launch."
+  },
+  {
+    id: "rule_06",
+    rule_code: "MSME-SEC-7",
+    source_code: "MSME",
+    category: "sectoral licence",
+    rule_title: "Udyam Micro-Enterprise Classification Eligibility",
+    status: "Passed",
+    legal_provision: "Micro, Small and Medium Enterprises Development Act 2006",
+    official_source_url: "https://udyamregistration.gov.in",
+    finding_summary: "Initial plant & machinery investment under ₹1 Crore and turnover under ₹5 Crores qualifies entity for Micro Enterprise tier.",
+    action_required: "Execute paperless Udyam registration via PAN & GSTIN integration post incorporation."
+  }
 ];
 
 // Helper to access LocalStorage safely
@@ -176,10 +341,12 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   // 1. Auth Handlers
   if (endpoint.startsWith("/auth/login")) {
     const isSpecialAdmin = body.email === "admin@ventureblueprint.in";
-    const user: MockUser = isSpecialAdmin ? DEFAULT_DEMO_ADMIN : {
-      ...DEFAULT_DEMO_FOUNDER,
-      email: body.email || DEFAULT_DEMO_FOUNDER.email,
-    };
+    const user: MockUser = isSpecialAdmin
+      ? DEFAULT_DEMO_ADMIN
+      : {
+          ...DEFAULT_DEMO_FOUNDER,
+          email: body.email || DEFAULT_DEMO_FOUNDER.email,
+        };
     const token = `demo_token_${user.role.toLowerCase()}_${Date.now()}`;
     setStored("vb_mock_user", user);
     setStored("vb_token", token);
@@ -193,7 +360,7 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   if (endpoint.startsWith("/auth/register")) {
     const user: MockUser = {
       id: `usr_${Date.now()}`,
-      email: body.email,
+      email: body.email || "founder@ventureblueprint.in",
       full_name: body.full_name || "New Founder",
       role: "Entrepreneur",
       phone_number: body.phone_number,
@@ -201,6 +368,27 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
     const token = `demo_token_entrepreneur_${Date.now()}`;
     setStored("vb_mock_user", user);
     setStored("vb_token", token);
+
+    // Seed a customized project for the new founder if they don't have one
+    const projects = getStored<any[]>("vb_projects", INITIAL_PROJECTS);
+    const existing = projects.find((p) => p.name.includes(user.full_name));
+    if (!existing) {
+      const personalProj = {
+        id: `proj_${Date.now()}`,
+        name: `${user.full_name}'s Venture`,
+        domain: "Information Technology",
+        preferred_structure: "Private Limited Company",
+        accent_color: "#10b981",
+        status: "Draft",
+        completion_percentage: 25,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        description: `Company formation dossier initialized for ${user.full_name}.`,
+      };
+      projects.unshift(personalProj);
+      setStored("vb_projects", projects);
+    }
+
     return {
       access_token: token,
       refresh_token: `demo_refresh_${Date.now()}`,
@@ -218,11 +406,35 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
     let projects = getStored<any[]>("vb_projects", INITIAL_PROJECTS);
 
     if (method === "GET") {
-      const matchId = endpoint.match(/^\/projects\/([a-zA-Z0-9_-]+)$/);
-      if (matchId) {
+      const matchId = endpoint.match(/^\/projects\/([a-zA-Z0-9_-]+)(\?.*)?$/);
+      if (matchId && !endpoint.startsWith("/projects?")) {
         const found = projects.find((p) => p.id === matchId[1]) || projects[0];
         return found;
       }
+
+      // Handle search and status filtering
+      if (endpoint.includes("?")) {
+        const queryPart = endpoint.split("?")[1];
+        const params = new URLSearchParams(queryPart);
+        const statusFilter = params.get("status");
+        const searchFilter = params.get("search")?.toLowerCase().trim();
+
+        let filtered = [...projects];
+        if (statusFilter && statusFilter.toLowerCase() !== "all") {
+          filtered = filtered.filter(
+            (p) => p.status?.toLowerCase() === statusFilter.toLowerCase()
+          );
+        }
+        if (searchFilter) {
+          filtered = filtered.filter(
+            (p) =>
+              p.name?.toLowerCase().includes(searchFilter) ||
+              p.domain?.toLowerCase().includes(searchFilter)
+          );
+        }
+        return filtered;
+      }
+
       return projects;
     }
 
@@ -244,13 +456,14 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
       const newProj = {
         id: `proj_${Date.now()}`,
         name: body.name || "My New Venture",
-        domain: body.domain || "SaaS",
-        preferred_structure: body.preferred_structure || "Private Limited",
+        domain: body.domain || "Information Technology",
+        preferred_structure: body.preferred_structure || "Private Limited Company",
         accent_color: body.accent_color || "#10b981",
         status: "Draft",
-        completion_percentage: 15,
+        completion_percentage: 20,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
+        description: `Initiated venture blueprint for ${body.name || "New Venture"}.`,
       };
       projects.unshift(newProj);
       setStored("vb_projects", projects);
@@ -281,7 +494,7 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   // 3. Validation & Pre-screening Handlers
   if (endpoint.startsWith("/validation/name-prescreen")) {
     const rawName = (body.name || "").trim();
-    const structure = body.legal_structure || "Private Limited";
+    const structure = body.legal_structure || "Private Limited Company";
     const prohibitedWords = ["Bank", "Insurance", "National", "Reserve", "Federal", "Government"];
     const foundProhibited = prohibitedWords.filter((w) =>
       new RegExp(`\\b${w}\\b`, "i").test(rawName)
@@ -304,7 +517,7 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
       {
         criterion: "Statutory Suffix Alignment",
         passed: true,
-        details: `Name conforms to ${structure} naming conventions.`,
+        details: `Name conforms to ${structure} naming conventions under Rule 8.`,
       },
     ];
 
@@ -315,9 +528,9 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
       score: passedAll ? 95 : 60,
       checks,
       suggestions: [
-        `${rawName} Technologies ${structure === "Private Limited" ? "Pvt Ltd" : "LLP"}`,
-        `${rawName} Digital Solutions ${structure === "Private Limited" ? "Pvt Ltd" : "LLP"}`,
-        `${rawName} Global Innovations ${structure === "Private Limited" ? "Pvt Ltd" : "LLP"}`,
+        `${rawName} Technologies Private Limited`,
+        `${rawName} Digital Solutions Private Limited`,
+        `${rawName} Global Innovations LLP`,
       ],
     };
   }
@@ -388,21 +601,27 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
 
   if (endpoint.startsWith("/questionnaires/projects/")) {
     const matchId = endpoint.match(/^\/questionnaires\/projects\/([a-zA-Z0-9_-]+)$/);
-    const key = `vb_answers_${matchId ? matchId[1] : "default"}`;
+    const projId = matchId ? matchId[1] : "default";
+    const key = `vb_answers_${projId}`;
+
     if (method === "POST") {
       setStored(key, body.answers || body);
       return { success: true, saved_at: new Date().toISOString() };
     }
-    return getStored<any>(key, {
-      business_name: "HealthPulse AI Solutions",
-      business_activity: "AI software diagnostic services for clinical healthcare providers",
-      registered_state: "Telangana",
-      num_founders: 2,
-      authorized_capital: 100000,
-      gst_required: true,
-      msme_udyam: true,
-      startup_india: true,
-    });
+
+    // Lookup project details
+    const projects = getStored<any[]>("vb_projects", INITIAL_PROJECTS);
+    const activeProject = projects.find((p) => p.id === projId) || projects[0];
+
+    const saved = getStored<any>(key, {});
+    return {
+      name: activeProject.name,
+      domain: activeProject.domain,
+      preferred_structure: activeProject.preferred_structure || "Private Limited Company",
+      company_name: activeProject.name,
+      business_domain: activeProject.domain,
+      ...saved,
+    };
   }
 
   // 5. Regulations & Sources Handlers
@@ -416,31 +635,30 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   }
 
   if (endpoint.startsWith("/regulations/rules")) {
-    return [
-      { id: "rule_01", source_code: "MCA", title: "Minimum Director Requirement", requirement: "At least two directors required for a Private Limited company.", status: "Active" },
-      { id: "rule_02", source_code: "MCA", title: "Resident Director Mandate", requirement: "At least one director must have stayed in India for ≥ 182 days in previous financial year.", status: "Active" },
-      { id: "rule_03", source_code: "GSTN", title: "Compulsory GST Registration", requirement: "Mandatory if aggregate turnover exceeds ₹20 Lakhs (services) or ₹40 Lakhs (goods).", status: "Active" },
-      { id: "rule_04", source_code: "DPIIT", title: "Startup Tax Exemption (80-IAC)", requirement: "Incorporated on or after April 1, 2016, with turnover under ₹100 Crores.", status: "Active" },
-    ];
+    return INITIAL_RULES;
   }
 
   if (endpoint.startsWith("/regulations/domains")) {
     return [
-      { id: "dom_fintech", name: "Fintech", slug: "fintech", description: "Payments, lending, wealthtech and neo-banking infrastructure" },
-      { id: "dom_healthtech", name: "HealthTech", slug: "healthtech", description: "Digital therapeutics, EHR, medical devices and diagnostics" },
-      { id: "dom_saas", name: "Enterprise SaaS", slug: "saas", description: "B2B cloud productivity and automation software" },
-      { id: "dom_agritech", name: "Agritech", slug: "agritech", description: "Farm management, supply chain and smart crop analytics" },
-      { id: "dom_ecommerce", name: "E-Commerce & D2C", slug: "ecommerce", description: "Online retail, omnichannel brands and marketplace logistics" },
+      { id: "dom_fintech", name: "Finance and Accounting", slug: "finance-accounting", description: "Payments, lending, wealthtech and neo-banking infrastructure" },
+      { id: "dom_healthtech", name: "Healthcare", slug: "healthcare", description: "Digital therapeutics, EHR, medical devices and diagnostics" },
+      { id: "dom_saas", name: "Information Technology", slug: "it", description: "B2B cloud productivity, SaaS and automation software" },
+      { id: "dom_agritech", name: "Agriculture", slug: "agriculture", description: "Farm management, supply chain and smart crop analytics" },
+      { id: "dom_ecommerce", name: "E-commerce", slug: "ecommerce", description: "Online retail, omnichannel brands and marketplace logistics" },
     ];
   }
 
   // 6. Compliance Handlers
-  if (endpoint.startsWith("/compliance/projects/") && endpoint.endsWith("/assessment")) {
+  if (
+    endpoint.startsWith("/compliance/projects/") &&
+    (endpoint.endsWith("/assess") || endpoint.endsWith("/assessment"))
+  ) {
     return {
       status: "Compliant",
-      overall_score: 88,
+      overall_score: 92,
       risk_tier: "Low",
-      summary: "8 of 10 key statutory prerequisites satisfied for SPICe+ filing.",
+      summary: "All mandatory pre-incorporation statutory prerequisites successfully satisfied under Companies Act 2013 and Rule 8.",
+      rule_results: INITIAL_RULES,
     };
   }
 
@@ -460,26 +678,32 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   }
 
   if (endpoint.startsWith("/compliance/projects/") && endpoint.endsWith("/roles")) {
-    return [
-      { title: "Managing Director", assigned: "Aarav Sharma", status: "Nominated" },
-      { title: "Director & CTO", assigned: "Priya Nair", status: "Nominated" },
-      { title: "Authorized Signatory", assigned: "Aarav Sharma", status: "Designated" },
-    ];
+    return INITIAL_ROLES;
   }
 
   // 7. Documents Handlers
   if (endpoint.startsWith("/documents/projects/") && endpoint.endsWith("/generate")) {
     const matchId = endpoint.match(/^\/documents\/projects\/([a-zA-Z0-9_-]+)\/generate$/);
     const docs = getStored<any[]>("vb_documents", INITIAL_DOCUMENTS);
+    const docType = body.document_type || "formation_blueprint";
+    const fileFmt = body.file_format || "pdf";
+    const docTitle =
+      docType === "formation_blueprint"
+        ? "VentureBlueprint Company Startup Blueprint"
+        : `${docType.toUpperCase()} Dossier`;
+
     const newDoc = {
       id: `doc_${Date.now()}`,
       project_id: matchId ? matchId[1] : "proj_demo",
-      name: `${body.document_type || "Regulatory Document"} (${body.file_format?.toUpperCase() || "PDF"})`,
-      document_type: body.document_type || "Statutory",
+      title: docTitle,
+      name: `${docTitle} (${fileFmt.toUpperCase()})`,
+      document_type: docType,
+      version: 1,
       status: "Generated",
-      file_format: body.file_format || "pdf",
+      file_format: fileFmt,
+      file_size_bytes: fileFmt === "pdf" ? 384210 : 185420,
       created_at: new Date().toISOString(),
-      size: "210 KB",
+      size: fileFmt === "pdf" ? "375 KB" : "181 KB",
     };
     docs.unshift(newDoc);
     setStored("vb_documents", docs);
@@ -492,18 +716,23 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
 
   // 8. Admin Portal Handlers
   if (endpoint.startsWith("/admin/stats")) {
+    const projects = getStored<any[]>("vb_projects", INITIAL_PROJECTS);
+    const docs = getStored<any[]>("vb_documents", INITIAL_DOCUMENTS);
     return {
-      total_users: 48,
-      total_projects: 34,
-      total_documents: 112,
+      total_users: 52,
+      total_projects: projects.length,
+      total_documents: docs.length,
+      active_regulatory_rules: INITIAL_RULES.length,
+      storage_directory: "/app/storage/sandboxed",
       active_compliances: 89,
       system_uptime: "99.98%",
     };
   }
 
   if (endpoint.startsWith("/admin/users")) {
+    const storedUser = getStored<MockUser>("vb_mock_user", DEFAULT_DEMO_FOUNDER);
     return [
-      DEFAULT_DEMO_FOUNDER,
+      storedUser,
       DEFAULT_DEMO_ADMIN,
       { id: "usr_03", email: "priya@nairtech.in", full_name: "Priya Nair", role: "Entrepreneur", phone_number: "+91 91234 56789" },
       { id: "usr_04", email: "rohit@finverse.io", full_name: "Rohit Verma", role: "Entrepreneur", phone_number: "+91 94567 89012" },
@@ -512,10 +741,14 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
 
   if (endpoint.startsWith("/admin/audit-logs")) {
     return [
-      { id: "aud_01", event: "Project Validation Run", user: "aarav@ventureblueprint.in", timestamp: new Date(Date.now() - 3600000).toISOString() },
-      { id: "aud_02", event: "Document Generated: MoA Draft", user: "aarav@ventureblueprint.in", timestamp: new Date(Date.now() - 7200000).toISOString() },
+      { id: "aud_01", event: "Project Validation Run", user: "founder@ventureblueprint.in", timestamp: new Date(Date.now() - 3600000).toISOString() },
+      { id: "aud_02", event: "Document Generated: Company Formation Blueprint", user: "founder@ventureblueprint.in", timestamp: new Date(Date.now() - 7200000).toISOString() },
       { id: "aud_03", event: "Rule Updated: SPICe+ Part B", user: "admin@ventureblueprint.in", timestamp: new Date(Date.now() - 86400000).toISOString() },
     ];
+  }
+
+  if (endpoint.startsWith("/admin/rules/") && endpoint.endsWith("/transition")) {
+    return { success: true, message: "Rule state updated successfully" };
   }
 
   if (endpoint.startsWith("/admin/health")) {

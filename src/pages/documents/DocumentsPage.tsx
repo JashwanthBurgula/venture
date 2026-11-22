@@ -99,7 +99,10 @@ export const DocumentsPage: React.FC = () => {
   const handleDownload = async (doc: any) => {
     try {
       setDownloading(true);
-      const filename = `${doc.title.replace(/[^a-zA-Z0-9_-]/g, "_")}_v${doc.version}.${doc.file_format}`;
+      const titleStr = doc?.title || doc?.name || "VentureBlueprint_Document";
+      const versionStr = doc?.version || 1;
+      const formatStr = doc?.file_format || "pdf";
+      const filename = `${titleStr.replace(/[^a-zA-Z0-9_-]/g, "_")}_v${versionStr}.${formatStr}`;
       await documentsApi.downloadFile(doc.id, filename);
     } catch (err: any) {
       console.error("Download error:", err);
