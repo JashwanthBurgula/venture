@@ -3,7 +3,11 @@ from pathlib import Path
 from pydantic_settings import BaseSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-STORAGE_DEFAULT = BASE_DIR.parent / "storage"
+
+# Detect serverless environment (e.g. Vercel, AWS Lambda) where only /tmp is writable
+IS_SERVERLESS = bool(os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
+STORAGE_DEFAULT = Path("/tmp/storage") if IS_SERVERLESS else (BASE_DIR.parent / "storage")
+DB_DEFAULT = "sqlite:////tmp/ventureblueprint.db" if IS_SERVERLESS else f"sqlite:///{BASE_DIR / 'ventureblueprint.db'}"
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "VentureBlueprint"
@@ -16,7 +20,7 @@ class Settings(BaseSettings):
     # Database: Supports PostgreSQL or local SQLite fallback
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL", 
-        f"sqlite:///{BASE_DIR / 'ventureblueprint.db'}"
+        DB_DEFAULT
     )
     
     # Storage configuration
@@ -28,4 +32,7 @@ class Settings(BaseSettings):
         case_sensitive = True
 
 settings = Settings()
-settings.STORAGE_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    settings.STORAGE_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    pass

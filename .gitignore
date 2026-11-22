@@ -37,3 +37,4 @@ storage/*
 !storage/.gitkeep
 *.db
 *.sqlite3
+.vercel
