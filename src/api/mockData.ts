@@ -495,19 +495,49 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   if (endpoint.startsWith("/validation/name-prescreen")) {
     const rawName = (body.name || "").trim();
     const structure = body.legal_structure || "Private Limited Company";
-    const prohibitedWords = ["Bank", "Insurance", "National", "Reserve", "Federal", "Government"];
+    const prohibitedWords = ["Bank", "Insurance", "National", "Reserve", "Federal", "Government", "Bharat", "President", "Court"];
     const foundProhibited = prohibitedWords.filter((w) =>
       new RegExp(`\\b${w}\\b`, "i").test(rawName)
     );
 
+    const warnings: string[] = [];
+    const errors: string[] = [];
+    const recommendations: string[] = [];
+    let score = 95;
+
+    if (rawName.length < 3) {
+      errors.push("Proposed company name must be at least 3 characters long.");
+      score = Math.max(0, score - 50);
+    }
+
+    if (foundProhibited.length > 0) {
+      warnings.push(`Contains regulated terminology (${foundProhibited.join(", ")}). Prior clearance or NOC from relevant authority required.`);
+      score = Math.max(0, score - 25);
+    }
+
+    const lower = rawName.toLowerCase();
+    const structureSuffixes: Record<string, string> = {
+      "Private Limited Company": "Private Limited",
+      "Public Limited Company": "Limited",
+      "Limited Liability Partnership (LLP)": "LLP",
+      "One Person Company (OPC)": "(OPC) Private Limited",
+    };
+    const expectedSuffix = structureSuffixes[structure] || "Private Limited";
+    const hasSuffix = lower.endsWith(expectedSuffix.toLowerCase()) || lower.endsWith("pvt ltd") || lower.endsWith("ltd");
+
+    if (!hasSuffix && structure !== "Sole Proprietorship" && structure !== "Partnership Firm") {
+      warnings.push(`For a ${structure}, the legal name will formally conclude with '${expectedSuffix}'. VentureBlueprint will automatically format this for SPICe+ filing.`);
+      recommendations.push(`Suggested formal legal name: '${rawName} ${expectedSuffix}'`);
+    }
+
     const checks = [
       {
-        criterion: "Unique Distinctive Component",
-        passed: rawName.length > 3,
-        details: rawName.length > 3 ? "Has distinctive branding keywords." : "Name is too short.",
+        criterion: "Distinctive Branding Component",
+        passed: rawName.length >= 3,
+        details: rawName.length >= 3 ? "Has distinctive branding keywords." : "Name is too short.",
       },
       {
-        criterion: "Regulatory Keyword Clearance",
+        criterion: "Regulatory & Sovereign Clearance",
         passed: foundProhibited.length === 0,
         details:
           foundProhibited.length === 0
@@ -517,21 +547,29 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
       {
         criterion: "Statutory Suffix Alignment",
         passed: true,
-        details: `Name conforms to ${structure} naming conventions under Rule 8.`,
+        details: `Name conforms to ${structure} naming conventions under MCA Rule 8.`,
       },
     ];
 
-    const passedAll = checks.every((c) => c.passed);
+    const isValid = errors.length === 0;
+
     return {
-      status: passedAll ? "success" : "warning",
-      is_valid: passedAll,
-      score: passedAll ? 95 : 60,
+      status: isValid ? "success" : "error",
+      is_valid: isValid,
+      score,
+      name_assessed: rawName,
+      legal_structure: structure,
       checks,
+      warnings,
+      errors,
+      recommendations,
       suggestions: [
-        `${rawName} Technologies Private Limited`,
-        `${rawName} Digital Solutions Private Limited`,
-        `${rawName} Global Innovations LLP`,
+        `${rawName} Technologies ${expectedSuffix}`,
+        `${rawName} Digital Solutions ${expectedSuffix}`,
+        `${rawName} Global Innovations ${expectedSuffix}`,
       ],
+      mca_portal_url: "https://www.mca.gov.in/content/mca/global/en/home.html",
+      disclaimer: "Automated preliminary assessment based on MCA Rule 8 guidelines. Final reservation must be completed on SPICe+ Part A.",
     };
   }
 
@@ -553,13 +591,67 @@ export function handleMockFallback(endpoint: string, options: RequestInit = {}):
   }
 
   if (endpoint.startsWith("/validation/project/")) {
+    const projectId = endpoint.split("/")[3] || "proj_current";
     return {
+      project_id: projectId,
       validation_status: "Passed",
-      score: 92,
+      score: 94,
+      total_checks: 18,
       critical_issues: [],
       advisories: [
         "Ensure trademark registry clearance under Class 9 and Class 42 before public marketing.",
         "Maintain minimum 2 designated directors with verified Indian address proof for SPICe+ filing."
+      ],
+      structure_recommendation: {
+        recommended_structure: "Private Limited Company",
+        fit_score: 94,
+        rationale: "Ideal structure for technology companies planning to issue equity, grant ESOPs, and raise angel or institutional venture financing."
+      },
+      validation_results: [
+        {
+          id: "vr_1",
+          category: "name_validation",
+          rule_id: "RULE-NAM-000",
+          field_name: "name",
+          status: "Passed",
+          severity: "info",
+          explanation: "Proposed entity name passed automated MCA Rule 8 pre-screening.",
+          corrective_action: "Proceed to formal name reservation on SPICe+ Part A.",
+          legal_reference: "Section 4(2), Companies Act, 2013"
+        },
+        {
+          id: "vr_2",
+          category: "structure_compatibility",
+          rule_id: "RULE-STR-001",
+          field_name: "directors",
+          status: "Passed",
+          severity: "info",
+          explanation: "Director requirements satisfied for proposed Private Limited Company.",
+          corrective_action: "Ensure valid DIN and Digital Signature Certificates (DSC) are obtained.",
+          legal_reference: "Section 149(1), Companies Act, 2013"
+        },
+        {
+          id: "vr_3",
+          category: "ownership_consistency",
+          rule_id: "RULE-OWN-001",
+          field_name: "shareholding",
+          status: "Passed",
+          severity: "info",
+          explanation: "Founder shareholding distribution verified at 100% allocation.",
+          corrective_action: "Execute Shareholder Agreement (SHA) prior to subscription capital infusion.",
+          legal_reference: "Section 56, Companies Act, 2013"
+        },
+        {
+          id: "vr_4",
+          category: "location_verification",
+          rule_id: "RULE-LOC-001",
+          field_name: "registered_office",
+          status: "Warning",
+          severity: "medium",
+          explanation: "Registered office documentation pending utility bill verification under 60 days.",
+          corrective_action: "Attach recent electricity or broadband bill along with premises owner NOC.",
+          legal_reference: "Section 12, Companies Act, 2013"
+        }
       ]
     };
   }

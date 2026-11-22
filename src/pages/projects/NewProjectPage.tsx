@@ -93,7 +93,7 @@ export const NewProjectPage: React.FC = () => {
 
           {/* Live Pre-screening Feedback Banner */}
           {prescreenResult && (
-            <div className={`p-4 rounded-xl text-xs space-y-2 border ${
+            <div className={`p-4 rounded-xl text-xs space-y-2.5 border transition-all ${
               prescreenResult.is_valid
                 ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-200"
                 : "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-700 text-rose-800 dark:text-rose-200"
@@ -101,23 +101,47 @@ export const NewProjectPage: React.FC = () => {
               <div className="flex items-center justify-between font-bold">
                 <span className="flex items-center gap-1.5">
                   {prescreenResult.is_valid ? <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />}
-                  Preliminary Pre-screening Score: {prescreenResult.score}/100
+                  Preliminary Pre-screening Score: {prescreenResult.score ?? 85}/100
                 </span>
                 <span className="text-[10px] uppercase font-mono text-slate-600 dark:text-slate-400">Rule 8 Check</span>
               </div>
-              {prescreenResult.warnings.length > 0 && (
-                <ul className="list-disc pl-4 space-y-1 text-amber-700 dark:text-amber-300">
+
+              {Array.isArray(prescreenResult.errors) && prescreenResult.errors.length > 0 && (
+                <ul className="list-disc pl-4 space-y-1 text-rose-700 dark:text-rose-300 font-medium">
+                  {prescreenResult.errors.map((err: string, i: number) => (
+                    <li key={i}>{err}</li>
+                  ))}
+                </ul>
+              )}
+
+              {Array.isArray(prescreenResult.warnings) && prescreenResult.warnings.length > 0 && (
+                <ul className="list-disc pl-4 space-y-1 text-amber-700 dark:text-amber-300 font-medium">
                   {prescreenResult.warnings.map((w: string, i: number) => (
                     <li key={i}>{w}</li>
                   ))}
                 </ul>
               )}
-              {prescreenResult.errors.length > 0 && (
-                <ul className="list-disc pl-4 space-y-1 text-rose-700 dark:text-rose-300">
-                  {prescreenResult.errors.map((err: string, i: number) => (
-                    <li key={i}>{err}</li>
-                  ))}
-                </ul>
+
+              {Array.isArray(prescreenResult.recommendations) && prescreenResult.recommendations.length > 0 && (
+                <div className="pt-1.5 border-t border-slate-200/50 dark:border-slate-700/50">
+                  <span className="font-semibold text-slate-800 dark:text-slate-200 block mb-0.5">Recommendations:</span>
+                  <ul className="list-disc pl-4 space-y-0.5 text-slate-700 dark:text-slate-300">
+                    {prescreenResult.recommendations.map((rec: string, i: number) => (
+                      <li key={i}>{rec}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {Array.isArray(prescreenResult.suggestions) && prescreenResult.suggestions.length > 0 && (
+                <div className="pt-1.5 border-t border-slate-200/50 dark:border-slate-700/50">
+                  <span className="font-semibold text-slate-800 dark:text-slate-200 block mb-0.5">Suggested Entity Variations:</span>
+                  <ul className="list-disc pl-4 space-y-0.5 text-slate-700 dark:text-slate-300">
+                    {prescreenResult.suggestions.map((sug: string, i: number) => (
+                      <li key={i}>{sug}</li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </div>
           )}
